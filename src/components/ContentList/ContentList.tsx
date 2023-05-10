@@ -22,7 +22,7 @@ const Content = () => {
   return (
     <section className="mx-auto mb-8 mt-2 cursor-default px-4 md:container md:max-w-4xl">
       <ActionButtons tab={tab} />
-      <div className="flex flex-row items-baseline justify-between px-4 py-2">
+      <div className="flex w-full flex-row items-baseline justify-between px-4 py-2">
         <div className="tabs tabs-boxed">
           {tabOptions.map((option) => (
             <a
@@ -34,14 +34,14 @@ const Content = () => {
             </a>
           ))}
         </div>
-        <div className="flex flex-row gap-3">
+        <div className="flex w-40 flex-row items-center justify-between">
           <div className="dropdown-bottom dropdown-end dropdown-hover dropdown">
-            <label tabIndex={0} className="btn-ghost btn-xs btn m-1">
+            <label tabIndex={0} className="btn-ghost btn-xs btn">
               Sort by
             </label>
             <ul
               tabIndex={0}
-              className="dropdown-content menu rounded-box w-52 bg-base-100 p-2 shadow"
+              className="dropdown-content menu rounded-box menu-compact w-52 bg-base-100 p-2 shadow"
             >
               {sortOptions.map((option) => (
                 <li key={option} onClick={() => handleSortClick(option)}>
@@ -50,7 +50,7 @@ const Content = () => {
               ))}
             </ul>
           </div>
-          <div className="prose-sm prose-stone prose">{sortBy}</div>
+          <h5 className="text-sm font-bold">{sortBy}</h5>
         </div>
       </div>
       {tab === "Profile" && <ProfileList />}

@@ -40,13 +40,26 @@ const BrowseRepositoryModal = ({ username }: BrowseRepositoryModalProps) => {
 
   return (
     <>
-      <label htmlFor="my-modal-6" className="btn-accent btn-wide btn">
+      <label
+        htmlFor="share-repository-modal"
+        className="btn-accent btn-wide btn"
+      >
         Share Repository
       </label>
 
-      <input type="checkbox" id="my-modal-6" className="modal-toggle" />
+      <input
+        type="checkbox"
+        id="share-repository-modal"
+        className="modal-toggle"
+      />
       <div className="modal modal-bottom sm:modal-middle">
         <div className="modal-box flex w-full flex-col items-center justify-center gap-3">
+          <label
+            htmlFor="share-repository-modal"
+            className="btn-ghost btn-sm btn-circle btn absolute right-3 top-3"
+          >
+            ✕
+          </label>
           <h3 className="text-lg font-bold">
             Pick your most favorite repository!
           </h3>
@@ -61,7 +74,7 @@ const BrowseRepositoryModal = ({ username }: BrowseRepositoryModalProps) => {
           )}
           <div className="modal-action">
             <label
-              htmlFor="my-modal-6"
+              htmlFor="share-repository-modal"
               className={`btn-primary btn-wide btn ${modalButtonClassName}`}
               onClick={handleButtonClick}
             >

@@ -16,7 +16,7 @@ const RepositoryView = ({
   }
 
   return (
-    <ul className="menu rounded-box menu-compact w-56 bg-base-100 p-2">
+    <ul className="menu rounded-box menu-compact h-full w-full overflow-y-auto bg-base-100 p-2">
       {repositoryList.map((repository) => (
         <li key={repository.id} onClick={() => handleItemClick(repository.id)}>
           <a className={menuItemClassName(repository.id)}>{repository.name}</a>
