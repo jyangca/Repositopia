@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import type { PropsWithChildren } from "react";
-import { UserSignIn } from "./UserSignIn";
+import UserSignIn from "./UserSignIn";
 import UserSignOut from "./UserSignOut";
 
 const Header = () => {
@@ -9,7 +9,7 @@ const Header = () => {
   if (status === "loading") {
     return (
       <Wrapper>
-        <p>Loading...</p>
+        <button className="loading btn-ghost btn-active btn-square btn"></button>
       </Wrapper>
     );
   }
@@ -31,7 +31,7 @@ const Header = () => {
 
 const Wrapper = ({ children }: PropsWithChildren) => (
   <header className="flex cursor-default flex-col items-center">
-    <h1 className="p-7 text-5xl font-semibold">Repositopia</h1>
+    <h1 className="pb-7 text-5xl font-semibold">Repositopia</h1>
     {children}
   </header>
 );

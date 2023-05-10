@@ -2,7 +2,7 @@ import { LogoGithubIcon } from "@primer/octicons-react";
 import { signIn } from "next-auth/react";
 import React from "react";
 
-export const UserSignIn = () => {
+const UserSignIn = () => {
   const handleClickSignIn = () => void signIn();
 
   return (
@@ -17,3 +17,5 @@ export const UserSignIn = () => {
     </React.Fragment>
   );
 };
+
+export default UserSignIn;
