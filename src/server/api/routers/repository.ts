@@ -25,9 +25,12 @@ export const repositoryRouter = createTRPCRouter({
     .input(z.object({ username: z.string() }))
     .query(async ({ ctx, input }) => {
       try {
-        const repository = await fetchGithubRepository(ctx, input.username);
+        const repositories = await fetchGithubRepository(ctx, input.username);
+        const ownerRepositories = repositories?.filter(
+          (repo) => repo.owner.login === input.username && !repo.fork
+        );
 
-        return repository.map(mapGithubReposisotryToProject);
+        return ownerRepositories.map(mapGithubReposisotryToProject);
       } catch (error) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
