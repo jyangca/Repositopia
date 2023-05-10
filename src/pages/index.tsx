@@ -1,13 +1,13 @@
 import { type NextPage } from "next";
 
 import { MainLayout } from "@/layouts/main";
-import { Header, RepositoryList } from "@/components";
+import { Header, ProfileList } from "@/components";
 
 const Home: NextPage = () => {
   return (
     <MainLayout>
       <Header />
-      <RepositoryList />
+      <ProfileList />
     </MainLayout>
   );
 };
