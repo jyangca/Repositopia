@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ProfileList, RepositoryList } from ".";
+import { ActionButtons, ProfileList, RepositoryList } from "..";
 
 const tabOptions = ["Profile", "Repository"] as const;
 const sortOptions = ["Stars", "Latest", "Oldest"] as const;
@@ -21,6 +21,7 @@ const Content = () => {
 
   return (
     <section className="mx-auto mb-8 mt-2 cursor-default px-4 md:container md:max-w-4xl">
+      <ActionButtons tab={tab} />
       <div className="flex flex-row items-baseline justify-between px-4 py-2">
         <div className="tabs tabs-boxed">
           {tabOptions.map((option) => (

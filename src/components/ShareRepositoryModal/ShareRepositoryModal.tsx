@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import RepositoryView from "./RepositoryView";
-import { useBrowseRepository } from "./useBrowseRepository";
+import { useBrowseRepository } from "./useShareRepository";
 
 type BrowseRepositoryModalProps = {
   username: string;
@@ -41,7 +41,7 @@ const BrowseRepositoryModal = ({ username }: BrowseRepositoryModalProps) => {
   return (
     <>
       <label htmlFor="my-modal-6" className="btn-accent btn-wide btn">
-        Browse Repository
+        Share Repository
       </label>
 
       <input type="checkbox" id="my-modal-6" className="modal-toggle" />

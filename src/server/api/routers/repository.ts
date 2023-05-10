@@ -4,6 +4,7 @@ import {
   createTRPCRouter,
   protectedProcedure,
   type Context,
+  publicProcedure,
 } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { mapGithubReposisotryToProject } from "@/utils/helper";
@@ -34,6 +35,41 @@ export const repositoryRouter = createTRPCRouter({
         });
       }
     }),
+  getPaginated: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(50).nullish(),
+        cursor: z.number().int(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const limit = input.limit ?? 10;
+        const { cursor } = input;
+
+        const repositories = await ctx.prisma.repository.findMany({
+          take: limit + 1, // get an extra item at the end which we'll use as next cursor
+          orderBy: { star_count: "desc" },
+          cursor: cursor ? { id: cursor } : undefined,
+        });
+
+        let nextCursor: typeof cursor | undefined = undefined;
+        if (repositories.length > limit) {
+          const nextRepository = repositories.pop();
+          nextCursor = nextRepository?.id;
+        }
+        return {
+          repositories,
+          nextCursor,
+        };
+      } catch (error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Error getting repositories",
+        });
+      }
+    }),
+
   publish: protectedProcedure
     .input(z.object({ repository: RepositorySchema }))
     .mutation(async ({ ctx, input }) => {
