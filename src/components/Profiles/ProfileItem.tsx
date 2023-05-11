@@ -9,11 +9,11 @@ export const ProfileItem = ({ profile, position }: ProfileItemProps) => {
       <div className="flex shrink-0 flex-col items-center gap-2">
         {profile.avatar && (
           <Image
-            className="h-fit rounded-full"
-            src={profile?.avatar}
+            className="h-fit rounded-md"
+            src={profile.avatar}
             width="48"
             height="48"
-            alt=""
+            alt={`${profile.github}'s avatar`}
           />
         )}
         <p className="text-sm font-semibold">{position}º</p>
@@ -25,7 +25,7 @@ export const ProfileItem = ({ profile, position }: ProfileItemProps) => {
           <a
             href={`https://github.com/${profile.github}`}
             target="_blank"
-            className="text-xl font-semibold leading-6 text-gray-300 hover:underline"
+            className="text-xl font-semibold leading-6 hover:underline"
             rel="noreferrer"
           >
             {profile.name ?? profile.github}
@@ -45,7 +45,7 @@ export const ProfileItem = ({ profile, position }: ProfileItemProps) => {
           {/* Infos */}
           <div className="flex w-52 flex-col gap-1 whitespace-nowrap">
             <Info icon={<PeopleIcon />}>
-              <span className="text-gray-300">
+              <span className="text-sm font-semibold">
                 {transformFollowers(profile.followers)}
               </span>{" "}
               followers
@@ -53,7 +53,10 @@ export const ProfileItem = ({ profile, position }: ProfileItemProps) => {
 
             {profile.twitter && (
               <Info icon={<TwitterIcon />}>
-                <a href={`https://twitter.com/${profile.twitter}`}>
+                <a
+                  href={`https://twitter.com/${profile.twitter}`}
+                  className="hover:underline"
+                >
                   {profile.twitter}
                 </a>
               </Info>
@@ -87,11 +90,11 @@ const Info = ({
   </p>
 );
 
-function transformFollowers(followers: number) {
+const transformFollowers = (followers: number) => {
   if (followers < 1000) return followers;
   if (followers < 1000000) return `${(followers / 1000).toFixed(1)}k`;
   return `${(followers / 1000000).toFixed(1)}m`;
-}
+};
 
 const TwitterIcon = () => (
   <svg

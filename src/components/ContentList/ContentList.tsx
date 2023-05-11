@@ -50,7 +50,7 @@ const Content = () => {
               ))}
             </ul>
           </div>
-          <h5 className="text-sm font-bold">{sortBy}</h5>
+          <h5 className="text-sm font-semibold">{sortBy}</h5>
         </div>
       </div>
       {tab === "Profile" && <ProfileList />}
