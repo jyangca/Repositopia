@@ -18,6 +18,7 @@ const RepositorySchema = z.object({
   star_count: z.number().int(),
   owner_id: z.number().int(),
   owner_name: z.string(),
+  watcher_count: z.number().int(),
 });
 
 export const repositoryRouter = createTRPCRouter({
@@ -42,7 +43,7 @@ export const repositoryRouter = createTRPCRouter({
     .input(
       z.object({
         limit: z.number().min(1).max(50).nullish(),
-        cursor: z.number().int(),
+        cursor: z.number().int().nullish(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -51,8 +52,10 @@ export const repositoryRouter = createTRPCRouter({
         const { cursor } = input;
 
         const repositories = await ctx.prisma.repository.findMany({
-          take: limit + 1, // get an extra item at the end which we'll use as next cursor
-          orderBy: { star_count: "desc" },
+          take: limit + 1,
+          where: {
+            published: true,
+          },
           cursor: cursor ? { id: cursor } : undefined,
         });
 
@@ -79,6 +82,7 @@ export const repositoryRouter = createTRPCRouter({
       try {
         await ctx.prisma.repository.create({
           data: {
+            published: true,
             ...input.repository,
           },
         });
@@ -89,38 +93,21 @@ export const repositoryRouter = createTRPCRouter({
         });
       }
     }),
-  delete: protectedProcedure
-    .input(z.object({ ownerName: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      try {
-        await ctx.prisma.repository.delete({
-          where: {
-            owner_name: input.ownerName,
-          },
-        });
-      } catch (error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Error unpublishing repository",
-        });
-      }
-    }),
-  update: protectedProcedure
-    .input(z.object({ repository: RepositorySchema, ownerName: z.string() }))
+
+  unpublish: protectedProcedure
+    .input(z.object({ id: z.number().int() }))
     .mutation(async ({ ctx, input }) => {
       try {
         await ctx.prisma.repository.update({
+          data: { published: false },
           where: {
-            owner_name: input.ownerName,
-          },
-          data: {
-            ...input.repository,
+            id: input.id,
           },
         });
       } catch (error) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Error updating repository",
+          message: "Error unpublishing profile",
         });
       }
     }),

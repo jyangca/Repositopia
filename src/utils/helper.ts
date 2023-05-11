@@ -25,5 +25,7 @@ export const mapGithubReposisotryToProject = (
     star_count: repository.stargazers_count,
     owner_id: repository.owner.id,
     owner_name: repository.owner.login,
+    watcher_count: repository.watchers_count,
+    published: false,
   };
 };

@@ -28,6 +28,7 @@ export interface RepositoryResponse {
   url: string;
   forks_url: string;
   keys_url: string;
+  watchers_count: number;
   collaborators_url: string;
   teams_url: string;
   hooks_url: string;
