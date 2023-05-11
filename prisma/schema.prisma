@@ -71,13 +71,16 @@ model Profile {
 }
 
 model Repository {
-    id          Int     @id
-    name        String
-    description String?
-    url         String
-    star_count  Int
-    owner_id    Int     @unique
-    owner_name  String  @unique
+    id            Int     @id @unique
+    name          String
+    description   String?
+    url           String
+    star_count    Int
+    watcher_count Int
+    owner_id      Int
+    owner_name    String
+    published     Boolean @default(false)
+    avatar        String?
 }
 
 model VerificationToken {
