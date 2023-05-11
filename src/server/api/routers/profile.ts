@@ -25,7 +25,7 @@ export const profileRouter = createTRPCRouter({
     .input(
       z.object({
         limit: z.number().min(1).max(50).nullish(),
-        cursor: z.string().nullish(), // <-- "cursor" needs to exist, but can be any type
+        cursor: z.string().nullish(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -34,7 +34,7 @@ export const profileRouter = createTRPCRouter({
         const { cursor } = input;
 
         const profiles = await ctx.prisma.profile.findMany({
-          take: limit + 1, // get an extra item at the end which we'll use as next cursor
+          take: limit + 1,
           where: {
             published: true,
           },
@@ -61,10 +61,8 @@ export const profileRouter = createTRPCRouter({
 
   publish: protectedProcedure.mutation(async ({ ctx }) => {
     try {
-      // check if profiles exists
       const profile = await getMe(ctx);
 
-      // if not, fetch on github
       if (!profile) {
         const user = await fetchMyGithubProfile(ctx);
 
@@ -77,7 +75,6 @@ export const profileRouter = createTRPCRouter({
         });
       }
 
-      // update profile with published true
       await ctx.prisma.profile.update({
         data: { published: true },
         where: { userId: ctx.session?.user?.id },

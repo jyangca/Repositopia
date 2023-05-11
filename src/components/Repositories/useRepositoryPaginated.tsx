@@ -40,7 +40,7 @@ export function useProfilesPaginated({ pageSize = 8 }) {
         onSettled: () => {
           void utils.repository.getPaginated.invalidate();
         },
-        onSuccess: () => toast.success("Repository unpublished"),
+        onSuccess: () => toast.success("Repository removed."),
       }
     );
   }, []);

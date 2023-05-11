@@ -13,6 +13,7 @@ const ActionButotns = ({ tab }: ActionButotnsProps) => {
   const username = session?.user?.name;
 
   const ShareButton = () => {
+    if (!session?.user) return null;
     if (isLoading) {
       return (
         <button className="loading btn-accent btn-wide btn-square btn mb-3"></button>

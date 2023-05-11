@@ -3,7 +3,9 @@ import { toast } from "react-hot-toast";
 
 export function useShareProfile() {
   const { data: profile, isLoading: isLoadingProfile } =
-    api.profile.me.useQuery();
+    api.profile.me.useQuery(undefined, {
+      staleTime: 1000 * 60 * 60 * 24,
+    });
   const utils = api.useContext();
 
   const { mutate: publish, isLoading: isPublishing } =
@@ -29,8 +31,14 @@ export function useShareProfile() {
   const handlePublish = () => {
     if (isPublished) {
       unpublish();
+      toast("Removing profile...", {
+        icon: "🛬",
+      });
     } else {
       publish();
+      toast("Publishing profile...", {
+        icon: "🛫",
+      });
     }
   };
 

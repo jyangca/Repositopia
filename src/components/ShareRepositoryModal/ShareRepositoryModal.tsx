@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import RepositoryView from "./RepositoryView";
 import { useBrowseRepository } from "./useShareRepository";
+import toast from "react-hot-toast";
 
 type BrowseRepositoryModalProps = {
   username: string;
@@ -13,8 +14,6 @@ const BrowseRepositoryModal = ({ username }: BrowseRepositoryModalProps) => {
   } = useBrowseRepository({
     username,
   });
-
-  console.log(repositoryList);
 
   const [selected, setSelected] = useState<number>();
 
@@ -32,6 +31,14 @@ const BrowseRepositoryModal = ({ username }: BrowseRepositoryModalProps) => {
     );
 
     handlePublish(repository);
+    toast(
+      <span>
+        Publishing <b>{repository?.name}</b>...
+      </span>,
+      {
+        icon: "📬",
+      }
+    );
   };
 
   const menuItemClassName = (id: number) => (selected === id ? "active" : "");
