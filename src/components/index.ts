@@ -4,3 +4,4 @@ export { default as RepositoryList } from "./Repositories/RepositoryList";
 export { default as ShareRepositoryModal } from "./ShareRepositoryModal/ShareRepositoryModal";
 export { default as ContentList } from "./ContentList/ContentList";
 export { default as ActionButtons } from "./ActionButtons/ActionButtons";
+export { default as Info } from "./common/Info/Info";

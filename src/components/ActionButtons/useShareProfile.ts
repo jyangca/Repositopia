@@ -1,4 +1,5 @@
 import { api } from "@/utils/api";
+import { toast } from "react-hot-toast";
 
 export function useShareProfile() {
   const { data: profile, isLoading: isLoadingProfile } =
@@ -11,13 +12,16 @@ export function useShareProfile() {
         void utils.profile.me.invalidate();
         void utils.profile.getPaginated.invalidate();
       },
+      onSuccess: () => toast.success("Profile published!"),
     });
+
   const { mutate: unpublish, isLoading: isUnpublishing } =
     api.profile.unpublish.useMutation({
       onSettled: () => {
         void utils.profile.me.invalidate();
         void utils.profile.getPaginated.invalidate();
       },
+      onSuccess: () => toast.success("Profile unpublished!"),
     });
 
   const isPublished = profile?.published;

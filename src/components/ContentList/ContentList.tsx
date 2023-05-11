@@ -2,21 +2,17 @@ import React, { useState } from "react";
 import { ActionButtons, ProfileList, RepositoryList } from "..";
 
 const tabOptions = ["Profile", "Repository"] as const;
-const sortOptions = ["Stars", "Latest", "Oldest"] as const;
+
+export type TabOptionType = (typeof tabOptions)[number];
 
 const Content = () => {
-  const [tab, setTab] = useState<(typeof tabOptions)[number]>("Profile");
-  const [sortBy, setSortBy] = useState<(typeof sortOptions)[number]>("Latest");
+  const [tab, setTab] = useState<TabOptionType>("Profile");
 
-  const handleSortClick = (option: (typeof sortOptions)[number]) => {
-    setSortBy(option);
-  };
-
-  const handleTabClick = (option: (typeof tabOptions)[number]) => {
+  const handleTabClick = (option: TabOptionType) => {
     setTab(option);
   };
 
-  const tabClassName = (option: (typeof tabOptions)[number]) =>
+  const tabClassName = (option: TabOptionType) =>
     tab === option ? "tab tab-active" : "tab";
 
   return (
@@ -33,24 +29,6 @@ const Content = () => {
               {option}
             </a>
           ))}
-        </div>
-        <div className="flex w-40 flex-row items-center justify-between">
-          <div className="dropdown-bottom dropdown-end dropdown-hover dropdown">
-            <label tabIndex={0} className="btn-ghost btn-xs btn">
-              Sort by
-            </label>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu rounded-box menu-compact w-52 bg-base-100 p-2 shadow"
-            >
-              {sortOptions.map((option) => (
-                <li key={option} onClick={() => handleSortClick(option)}>
-                  <a>{option}</a>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <h5 className="text-sm font-semibold">{sortBy}</h5>
         </div>
       </div>
       {tab === "Profile" && <ProfileList />}

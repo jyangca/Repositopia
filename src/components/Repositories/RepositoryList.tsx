@@ -1,24 +1,26 @@
-import { ProfileItem } from "./RepositoryItem";
+import { RepositoryItem } from "./RepositoryItem";
 import { useProfilesPaginated } from "./useRepositoryPaginated";
 
 const PAGE_SIZE = 8;
 
-const ProfileList = () => {
-  const { profiles, isFetchingNextPage, isEmpty, ref } = useProfilesPaginated({
-    pageSize: PAGE_SIZE,
-  });
+const RepositoryList = () => {
+  const { repositoryPages, isFetchingNextPage, ref, handleUnpublish } =
+    useProfilesPaginated({
+      pageSize: PAGE_SIZE,
+    });
 
   return (
     <>
       <ul className="flex flex-col overflow-hidden rounded-md border border-gray-600">
-        {profiles?.pages?.map((page, pageIndex) =>
-          page.profiles.map((profile, profileIndex) => (
+        {repositoryPages?.pages?.map((page, pageIndex) =>
+          page.repositories.map((repository, profileIndex) => (
             <li
-              className="border-b border-b-gray-600 bg-gray-800/80 p-4 last:border-b-0"
-              key={profile.github}
+              className="border-b border-b-gray-600 bg-base-300 p-4 last:border-b-0"
+              key={repository.id}
             >
-              <ProfileItem
-                profile={profile}
+              <RepositoryItem
+                handleUnpublish={handleUnpublish}
+                repository={repository}
                 position={PAGE_SIZE * pageIndex + profileIndex + 1}
               />
             </li>
@@ -33,4 +35,4 @@ const ProfileList = () => {
   );
 };
 
-export default ProfileList;
+export default RepositoryList;

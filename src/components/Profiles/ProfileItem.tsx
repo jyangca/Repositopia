@@ -1,6 +1,13 @@
 import { LocationIcon, PeopleIcon } from "@primer/octicons-react";
 import type { Profile } from "@prisma/client";
 import Image from "next/image";
+import { transformNumberFormat } from "@/utils/common";
+import { Info } from "@/components";
+
+type ProfileItemProps = {
+  profile: Omit<Profile, "userId">;
+  position: number;
+};
 
 export const ProfileItem = ({ profile, position }: ProfileItemProps) => {
   return (
@@ -46,8 +53,8 @@ export const ProfileItem = ({ profile, position }: ProfileItemProps) => {
           <div className="flex w-52 flex-col gap-1 whitespace-nowrap">
             <Info icon={<PeopleIcon />}>
               <span className="text-sm font-semibold">
-                {transformFollowers(profile.followers)}
-              </span>{" "}
+                {transformNumberFormat(profile.followers)}
+              </span>
               followers
             </Info>
 
@@ -70,30 +77,6 @@ export const ProfileItem = ({ profile, position }: ProfileItemProps) => {
       </div>
     </div>
   );
-};
-
-type ProfileItemProps = {
-  profile: Omit<Profile, "userId">;
-  position: number;
-};
-
-const Info = ({
-  icon,
-  children,
-}: {
-  icon: JSX.Element;
-  children: React.ReactNode;
-}) => (
-  <p className="flex items-center gap-1 text-xs">
-    {icon}
-    <span>{children}</span>
-  </p>
-);
-
-const transformFollowers = (followers: number) => {
-  if (followers < 1000) return followers;
-  if (followers < 1000000) return `${(followers / 1000).toFixed(1)}k`;
-  return `${(followers / 1000000).toFixed(1)}m`;
 };
 
 const TwitterIcon = () => (

@@ -9,10 +9,12 @@ const BrowseRepositoryModal = ({ username }: BrowseRepositoryModalProps) => {
   const {
     data: repositoryList,
     isLoading,
-    publish,
+    handlePublish,
   } = useBrowseRepository({
     username,
   });
+
+  console.log(repositoryList);
 
   const [selected, setSelected] = useState<number>();
 
@@ -25,28 +27,36 @@ const BrowseRepositoryModal = ({ username }: BrowseRepositoryModalProps) => {
   };
 
   const handleButtonClick = () => {
-    const repo = repositoryList?.find(
+    const repository = repositoryList?.find(
       (repository) => repository.id === selected
     );
-    console.log(repo);
-    if (repo) {
-      publish({ repository: repo });
-    }
+
+    handlePublish(repository);
   };
 
   const menuItemClassName = (id: number) => (selected === id ? "active" : "");
 
   const modalButtonClassName = selected ? "btn-active" : "btn-disabled";
 
-  return (
-    <>
+  const ShareButton = () => {
+    if (isLoading) {
+      return (
+        <button className="loading btn-accent btn-wide btn-square btn mb-3"></button>
+      );
+    }
+    return (
       <label
         htmlFor="share-repository-modal"
         className="btn-accent btn-wide btn"
       >
         Share Repository
       </label>
+    );
+  };
 
+  return (
+    <>
+      <ShareButton />
       <input
         type="checkbox"
         id="share-repository-modal"

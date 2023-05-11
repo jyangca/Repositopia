@@ -26,7 +26,7 @@ const UserSignOut = ({ user }: UserSignOutProps) => {
           className="h-30 w-30 mb-3 rounded-lg shadow-xl"
         />
       </a>
-      <p className="text-l mb-1 font-light">{`Nice to meet you, ${user.name}`}</p>
+      <p className="text-l mb-1 font-light">{`Good day, ${user.name}`}</p>
       <button
         className="btn-outline btn-error btn-xs btn mb-3"
         onClick={handleClickSingOut}

@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { memo } from "react";
 import { ShareRepositoryModal } from "..";
 import { useShareProfile } from "./useShareProfile";
 
@@ -35,4 +35,4 @@ const ActionButotns = ({ tab }: ActionButotnsProps) => {
   );
 };
 
-export default ActionButotns;
+export default memo(ActionButotns);
