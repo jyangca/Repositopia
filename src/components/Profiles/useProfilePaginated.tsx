@@ -4,7 +4,7 @@ import { api } from "@/utils/api";
 
 export function useProfilesPaginated({ pageSize = 8 }) {
   const {
-    data: profiles,
+    data: profilePages,
     fetchNextPage,
     isFetchingNextPage,
   } = api.profile.getPaginated.useInfiniteQuery(
@@ -13,6 +13,7 @@ export function useProfilesPaginated({ pageSize = 8 }) {
     },
     {
       getNextPageParam: (lastPage) => lastPage.nextCursor,
+      staleTime: 1000 * 60 * 5,
     }
   );
 
@@ -24,10 +25,10 @@ export function useProfilesPaginated({ pageSize = 8 }) {
     }
   }, [inView, fetchNextPage]);
 
-  const isEmpty = profiles?.pages?.length === 0;
+  const isEmpty = profilePages?.pages?.length === 0;
 
   return {
-    profiles,
+    profilePages,
     isFetchingNextPage,
     isEmpty,
     ref,

@@ -16,7 +16,7 @@ export const profileRouter = createTRPCRouter({
     } catch (error) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Error getting profile",
+        message: "Error getting profile.",
       });
     }
   }),
@@ -54,7 +54,7 @@ export const profileRouter = createTRPCRouter({
       } catch (error) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Error getting profiles",
+          message: "Error getting profiles.",
         });
       }
     }),
@@ -85,7 +85,7 @@ export const profileRouter = createTRPCRouter({
     } catch (error) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Error publishing profile",
+        message: "Error publishing profile.",
       });
     }
   }),
@@ -99,7 +99,7 @@ export const profileRouter = createTRPCRouter({
     } catch (error) {
       throw new TRPCError({
         code: "INTERNAL_SERVER_ERROR",
-        message: "Error unpublishing profile",
+        message: "Error unpublishing profile.",
       });
     }
   }),

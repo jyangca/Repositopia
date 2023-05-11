@@ -80,12 +80,24 @@ export const repositoryRouter = createTRPCRouter({
     .input(z.object({ repository: RepositorySchema }))
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.repository.create({
-          data: {
-            published: true,
-            ...input.repository,
-          },
-        });
+        // check if repository exists
+        const repository = await getRepository(ctx, input.repository.id);
+        // update repository with published true
+        if (repository) {
+          await ctx.prisma.repository.update({
+            where: { id: input.repository.id },
+            data: { published: true },
+          });
+        }
+
+        if (!repository) {
+          await ctx.prisma.repository.create({
+            data: {
+              ...input.repository,
+              published: true,
+            },
+          });
+        }
       } catch (error) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
@@ -95,27 +107,53 @@ export const repositoryRouter = createTRPCRouter({
     }),
 
   unpublish: protectedProcedure
-    .input(z.object({ id: z.number().int() }))
+    .input(
+      z.object({
+        id: z.number().int().nullish(),
+        ownerName: z.string().nullish(),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.prisma.repository.update({
-          data: { published: false },
-          where: {
-            id: input.id,
-          },
-        });
+        if (input.ownerName) {
+          await ctx.prisma.repository.updateMany({
+            data: { published: false },
+            where: {
+              owner_name: input.ownerName,
+            },
+          });
+        }
+        if (input.id) {
+          await ctx.prisma.repository.update({
+            data: { published: false },
+            where: {
+              id: input.id,
+            },
+          });
+        }
       } catch (error) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: "Error unpublishing profile",
+          message: "Error unpublishing repository",
         });
       }
     }),
 });
 
+const getRepository = async (ctx: Context, id: number) => {
+  return await ctx.prisma.repository.findFirst({
+    where: {
+      id,
+    },
+  });
+};
+
 export const fetchGithubRepository = async (ctx: Context, username: string) => {
   const token = await getGithubToken(ctx);
-  const repositories = await fetchGithubUserRepositories(token, username);
+  const repositories = await fetchGithubUserRepositoryWithToken(
+    token,
+    username
+  );
   if (!repositories) throw new Error("Error fetching github user");
 
   return repositories;
@@ -131,7 +169,7 @@ const getGithubToken = async (ctx: Context) => {
   return token;
 };
 
-const fetchGithubUserRepositories = async (
+const fetchGithubUserRepositoryWithToken = async (
   token: string,
   username: string
 ): Promise<RepositoryResponse[] | null> => {
