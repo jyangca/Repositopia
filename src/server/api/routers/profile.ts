@@ -10,7 +10,7 @@ import { z } from "zod";
 import { mapGithubUserToProfile } from "@/utils/helper";
 
 export const profileRouter = createTRPCRouter({
-  me: protectedProcedure.query(async ({ ctx }) => {
+  me: publicProcedure.query(async ({ ctx }) => {
     try {
       return await getMe(ctx);
     } catch (error) {

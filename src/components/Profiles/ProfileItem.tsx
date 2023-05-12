@@ -37,7 +37,7 @@ export const ProfileItem = ({ profile, position }: ProfileItemProps) => {
           >
             {profile.name ?? profile.github}
           </a>
-          {profile.name && (
+          {profile.github && (
             <p className="text-base leading-4">{profile.github}</p>
           )}
         </div>
