@@ -22,7 +22,7 @@ const RepositorySchema = z.object({
 });
 
 export const repositoryRouter = createTRPCRouter({
-  getUserRepository: protectedProcedure
+  getUserRepository: publicProcedure
     .input(z.object({ username: z.string() }))
     .query(async ({ ctx, input }) => {
       try {
